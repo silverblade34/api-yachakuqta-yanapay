@@ -1,19 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { AdministratorsService } from './administrators.service';
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
 import { UpdateAdministratorDto } from './dto/update-administrator.dto';
+import { Response } from 'express';
 
 @Controller('administrators')
 export class AdministratorsController {
   constructor(private readonly administratorsService: AdministratorsService) { }
 
   @Post()
-  async create(@Body() createAdministratorDto: CreateAdministratorDto) {
+  async create(@Body() createAdministratorDto: CreateAdministratorDto, @Res() res: Response) {
     try {
       const data = await this.administratorsService.create(createAdministratorDto);
-      return { data }
-    } catch (e) {
-      return { "message": e }
+      res.locals.response("Se ha creado el administrador correctamente", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
     }
   }
 
