@@ -19,8 +19,23 @@ export class SyllabusController {
   }
 
   @Get()
-  findAll() {
-    return this.syllabusService.findAll();
+  async findAll(@Res() res: Response) {
+    try {
+      const data = await this.syllabusService.findAll();
+      res.locals.response("Lista de syllabus registrados", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
+  }
+
+  @Get('findAllToCourse/:courseId')
+  async findAllToCourse(@Param('courseId') courseId: string, @Res() res: Response) {
+    try {
+      const data = await this.syllabusService.findAllToCourse(courseId);
+      res.locals.response("Lista de syllabus registrados", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
   }
 
   @Get(':id')

@@ -1,15 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { Response } from 'express';
 
 @Controller('questions')
 export class QuestionsController {
-  constructor(private readonly questionsService: QuestionsService) {}
+  constructor(private readonly questionsService: QuestionsService) { }
 
   @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
-    return this.questionsService.create(createQuestionDto);
+  async create(@Body() createQuestionDto: CreateQuestionDto, @Res() res: Response) {
+
+    try {
+      const data = await this.questionsService.create(createQuestionDto);
+      res.locals.response("Se ha creado la pregunta correctamente", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
   }
 
   @Get()

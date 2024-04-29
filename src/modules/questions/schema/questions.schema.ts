@@ -17,8 +17,8 @@ export class Questions {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true })
-  url_image: string;
+  @Prop()
+  image: string;
 
   @Prop({ default: Date.now })
   createdAt: Date;

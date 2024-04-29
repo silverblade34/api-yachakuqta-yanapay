@@ -33,6 +33,15 @@ export class SyllabusService {
     return findSyllabus;
   }
 
+  async findAllToCourse(courseId: string) {
+    const findCourse = await this.coursesModule.findOne({ _id: courseId })
+
+    if (!findCourse) { throw new BadRequestException(`El curso con id: ${courseId} no se encuentra registrado`) }
+
+    const findSyllabus = await this.syllabusModule.find({ courseId });
+    return findSyllabus;
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} syllabus`;
   }

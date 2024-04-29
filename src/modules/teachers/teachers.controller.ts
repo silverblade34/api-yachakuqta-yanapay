@@ -19,8 +19,13 @@ export class TeachersController {
   }
 
   @Get()
-  findAll() {
-    return this.teachersService.findAll();
+  async findAll(@Res() res: Response) {
+    try {
+      const data = await this.teachersService.findAll();
+      res.locals.response("Lista de profesores registrados", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
   }
 
   @Get(':id')

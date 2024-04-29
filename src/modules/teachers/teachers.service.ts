@@ -55,8 +55,9 @@ export class TeachersService {
     return createdTeacher;
   }
 
-  findAll() {
-    return `This action returns all teachers`;
+  async findAll() {
+    const findTeachers = await this.teachersModule.find();
+    return findTeachers;
   }
 
   findOne(id: number) {
