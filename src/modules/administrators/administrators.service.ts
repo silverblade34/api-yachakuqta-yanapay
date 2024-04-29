@@ -21,7 +21,7 @@ export class AdministratorsService {
     ])
 
     if (findUser) {
-      throw new BadRequestException(`Ya existe un administrador registrado con el usuario: ${createAdministratorDto.username}`)
+      throw new BadRequestException(`Ya existe una cuenta registrada con el usuario: ${createAdministratorDto.username}`)
     }
 
     if (findAdministrator) {
