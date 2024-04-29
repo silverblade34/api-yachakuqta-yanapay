@@ -7,6 +7,7 @@ import { AnswersModule } from './modules/answers/answers.module';
 import { ChallengesModule } from './modules/challenges/challenges.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { ConfigModule } from '@nestjs/config';
     AdministratorsModule,
     QuestionsModule,
     AnswersModule,
-    ChallengesModule
+    ChallengesModule,
+    UsersModule
   ],
   controllers: [],
   providers: [],

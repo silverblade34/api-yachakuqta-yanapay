@@ -5,11 +5,16 @@ import { UpdateAdministratorDto } from './dto/update-administrator.dto';
 
 @Controller('administrators')
 export class AdministratorsController {
-  constructor(private readonly administratorsService: AdministratorsService) {}
+  constructor(private readonly administratorsService: AdministratorsService) { }
 
   @Post()
-  create(@Body() createAdministratorDto: CreateAdministratorDto) {
-    return this.administratorsService.create(createAdministratorDto);
+  async create(@Body() createAdministratorDto: CreateAdministratorDto) {
+    try {
+      const data = await this.administratorsService.create(createAdministratorDto);
+      return { data }
+    } catch (e) {
+      return { "message": e }
+    }
   }
 
   @Get()

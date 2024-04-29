@@ -1,1 +1,21 @@
-export class CreateAdministratorDto {}
+import { IsNotEmpty } from "class-validator";
+
+export class CreateAdministratorDto {
+    @IsNotEmpty()
+    name: string
+
+    @IsNotEmpty()
+    lastName: string
+
+    @IsNotEmpty()
+    dni: string
+
+    @IsNotEmpty()
+    email: string
+
+    @IsNotEmpty()
+    username: string
+
+    @IsNotEmpty()
+    password: string
+}
