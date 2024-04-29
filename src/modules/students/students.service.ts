@@ -28,21 +28,21 @@ export class StudentsService {
       throw new BadRequestException(`Ya existe un estudiante registrado con el dni: ${createStudentDto.dni}`)
     }
 
-    const createUser: Users = {
+    const newUser: Users = {
       username: createStudentDto.username,
       password: await hash(createStudentDto.password, 10),
       rol: "STUDENT",
     };
-    const userCreated = await this.usersModule.create(createUser);
+    const userCreated = await this.usersModule.create(newUser);
 
-    const createStudent: Students = {
+    const newStudent = {
       userId: new mongoose.Types.ObjectId(userCreated._id),
       name: createStudentDto.name,
       lastName: createStudentDto.lastName,
       dni: createStudentDto.dni,
     };
 
-    const createdStudent = await this.studentsModule.create(createStudent);
+    const createdStudent = await this.studentsModule.create(newStudent);
     return createdStudent;
   }
 

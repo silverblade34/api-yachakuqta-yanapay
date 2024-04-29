@@ -10,6 +10,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { ResponseMiddleware } from './middlewares/response.middleware';
 import { SyllabusModule } from './modules/syllabus/syllabus.module';
+import { PracticesModule } from './modules/practices/practices.module';
+import { CoursesModule } from './modules/courses/courses.module';
 
 @Module({
   imports: [
@@ -25,7 +27,9 @@ import { SyllabusModule } from './modules/syllabus/syllabus.module';
     AnswersModule,
     ChallengesModule,
     UsersModule,
-    SyllabusModule
+    SyllabusModule,
+    PracticesModule,
+    CoursesModule
   ],
   controllers: [],
   providers: [],

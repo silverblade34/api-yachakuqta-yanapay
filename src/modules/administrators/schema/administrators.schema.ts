@@ -17,6 +17,9 @@ export class Administrators {
     @Prop({ required: true })
     email: String
 
+    @Prop({ default: Date.now })
+    createdAt: Date;
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userId: mongoose.Types.ObjectId;
 }

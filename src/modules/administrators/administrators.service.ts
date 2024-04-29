@@ -28,22 +28,22 @@ export class AdministratorsService {
       throw new BadRequestException(`Ya existe un administrador registrado con el dni: ${createAdministratorDto.dni}`)
     }
 
-    const createUser: Users = {
+    const newUser: Users = {
       username: createAdministratorDto.username,
       password: await hash(createAdministratorDto.password, 10),
       rol: "ADMINISTRATOR",
     };
-    const userCreated = await this.usersModule.create(createUser);
+    const userCreated = await this.usersModule.create(newUser);
 
-    const createAdministrator: Administrators = {
+    const newAdministrator = {
       userId: new mongoose.Types.ObjectId(userCreated._id),
       name: createAdministratorDto.name,
       lastName: createAdministratorDto.lastName,
       dni: createAdministratorDto.dni,
-      email: createAdministratorDto.email,
+      email: createAdministratorDto.email
     };
 
-    const administratorCreated = await this.administratorsModule.create(createAdministrator);
+    const administratorCreated = await this.administratorsModule.create(newAdministrator);
     return administratorCreated;
   }
 

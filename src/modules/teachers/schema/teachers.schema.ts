@@ -20,6 +20,9 @@ export class Teachers {
     @Prop({ required: true })
     nroCPPe: String
 
+    @Prop({ default: Date.now })
+    createdAt: Date;
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userId: mongoose.Types.ObjectId;
 }

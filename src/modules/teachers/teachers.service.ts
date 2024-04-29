@@ -35,14 +35,14 @@ export class TeachersService {
       throw new BadRequestException(`Ya existe un profesor registrado con el dni: ${createTeacherDto.dni}`)
     }
 
-    const createUser: Users = {
+    const newUser: Users = {
       username: createTeacherDto.username,
       password: await hash(createTeacherDto.password, 10),
       rol: "TEACHER",
     };
-    const userCreated = await this.usersModule.create(createUser);
+    const userCreated = await this.usersModule.create(newUser);
 
-    const createTeacher: Teachers = {
+    const newTeacher = {
       userId: new mongoose.Types.ObjectId(userCreated._id),
       name: createTeacherDto.name,
       lastName: createTeacherDto.lastName,
@@ -51,7 +51,7 @@ export class TeachersService {
       nroCPPe: findTeacherCppe.aaData[0][8]
     };
 
-    const createdTeacher = await this.teachersModule.create(createTeacher);
+    const createdTeacher = await this.teachersModule.create(newTeacher);
     return createdTeacher;
   }
 

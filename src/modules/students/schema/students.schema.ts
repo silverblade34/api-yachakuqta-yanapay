@@ -14,6 +14,9 @@ export class Students {
     @Prop({ required: true, unique: true })
     dni: String
 
+    @Prop({ default: Date.now })
+    createdAt: Date;
+
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userId: mongoose.Types.ObjectId;
 }

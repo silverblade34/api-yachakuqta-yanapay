@@ -1,15 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { SyllabusService } from './syllabus.service';
 import { CreateSyllabusDto } from './dto/create-syllabus.dto';
 import { UpdateSyllabusDto } from './dto/update-syllabus.dto';
+import { Response } from 'express';
 
 @Controller('syllabus')
 export class SyllabusController {
-  constructor(private readonly syllabusService: SyllabusService) {}
+  constructor(private readonly syllabusService: SyllabusService) { }
 
   @Post()
-  create(@Body() createSyllabusDto: CreateSyllabusDto) {
-    return this.syllabusService.create(createSyllabusDto);
+  async create(@Body() createSyllabusDto: CreateSyllabusDto, @Res() res: Response) {
+    try {
+      const data = await this.syllabusService.create(createSyllabusDto);
+      res.locals.response("Se ha creado el temario/unidad correctamente", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
   }
 
   @Get()
