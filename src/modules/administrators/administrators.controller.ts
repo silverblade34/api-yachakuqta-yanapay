@@ -25,7 +25,7 @@ export class AdministratorsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.administratorsService.findOne(+id);
+    return this.administratorsService.findOne(id);
   }
 
   @Patch(':id')

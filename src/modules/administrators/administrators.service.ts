@@ -1,9 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
 import { UpdateAdministratorDto } from './dto/update-administrator.dto';
-import { InjectModel, InjectConnection } from '@nestjs/mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { Administrators, AdministratorsDocument } from './schema/administrator.schema';
 import mongoose, { Model } from 'mongoose';
+import { hash } from 'bcrypt';
 import { Users, UsersDocument } from '../users/schema/users.schema';
 
 @Injectable()
@@ -11,45 +12,39 @@ export class AdministratorsService {
   constructor(
     @InjectModel(Users.name) private usersModule: Model<UsersDocument>,
     @InjectModel(Administrators.name) private administratorsModule: Model<AdministratorsDocument>,
-    @InjectConnection() private readonly connection: mongoose.Connection
   ) { }
 
   async create(createAdministratorDto: CreateAdministratorDto) {
-    const transactionSession = await this.connection.startSession();
-    transactionSession.startTransaction();
+    const [findUser, findAdministrator] = await Promise.all([
+      this.usersModule.findOne({ username: createAdministratorDto.username }),
+      this.administratorsModule.findOne({ dni: createAdministratorDto.dni })
+    ])
 
-    try {
-      const createUser: Users = {
-        username: createAdministratorDto.username,
-        password: createAdministratorDto.password,
-        rol: "ADMINISTRATOR",
-      };
-      const userCreated = await this.usersModule.create(createUser);
-      if (!userCreated) {
-        throw new BadRequestException(`No se creó correctamente el usuario`);
-      }
-
-      const createAdministrator: Administrators = {
-        userId: new mongoose.Types.ObjectId(userCreated._id),
-        name: createAdministratorDto.name,
-        lastName: createAdministratorDto.lastName,
-        dni: createAdministratorDto.dni,
-        email: createAdministratorDto.email,
-      };
-      const administratorCreated = await this.administratorsModule.create(createAdministrator);
-
-      if (!administratorCreated) {
-        throw new BadRequestException(`No se creó correctamente el administrador`);
-      }
-
-      await transactionSession.commitTransaction();
-      return administratorCreated;
-    } catch (error) {
-      await transactionSession.abortTransaction();
-      throw error;
-    } finally {
-      transactionSession.endSession();
+    if (findUser) {
+      throw new BadRequestException(`Ya existe un administrador registrado con el usuario: ${createAdministratorDto.username}`)
     }
+
+    if (findAdministrator) {
+      throw new BadRequestException(`Ya existe un administrador registrado con el dni: ${createAdministratorDto.dni}`)
+    }
+
+    const createUser: Users = {
+      username: createAdministratorDto.username,
+      password: await hash(createAdministratorDto.password, 10),
+      rol: "ADMINISTRATOR",
+    };
+    const userCreated = await this.usersModule.create(createUser);
+
+    const createAdministrator: Administrators = {
+      userId: new mongoose.Types.ObjectId(userCreated._id),
+      name: createAdministratorDto.name,
+      lastName: createAdministratorDto.lastName,
+      dni: createAdministratorDto.dni,
+      email: createAdministratorDto.email,
+    };
+
+    const administratorCreated = await this.administratorsModule.create(createAdministrator);
+    return administratorCreated;
   }
 
 
@@ -58,8 +53,10 @@ export class AdministratorsService {
     return administratorsFindAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} administrator`;
+  async findOne(id: string) {
+    const findAdministrator = await this.administratorsModule.findOne({ _id: id })
+    console.log(findAdministrator)
+    return findAdministrator;
   }
 
   update(id: number, updateAdministratorDto: UpdateAdministratorDto) {
