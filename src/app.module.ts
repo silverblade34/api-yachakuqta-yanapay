@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { ResponseMiddleware } from './middlewares/response.middleware';
+import { SyllabusModule } from './modules/syllabus/syllabus.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { ResponseMiddleware } from './middlewares/response.middleware';
     QuestionsModule,
     AnswersModule,
     ChallengesModule,
-    UsersModule
+    UsersModule,
+    SyllabusModule
   ],
   controllers: [],
   providers: [],

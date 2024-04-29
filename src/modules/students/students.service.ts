@@ -1,11 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { Users, UsersDocument } from '../users/schema/users.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import mongoose, { Model } from 'mongoose';
+import { Students, StudentsDocument } from './schema/students.schema';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class StudentsService {
-  create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+  constructor(
+    @InjectModel(Users.name) private usersModule: Model<UsersDocument>,
+    @InjectModel(Students.name) private studentsModule: Model<StudentsDocument>,
+  ) { }
+
+  async create(createStudentDto: CreateStudentDto) {
+    const [findUser, findStudent] = await Promise.all([
+      this.usersModule.findOne({ username: createStudentDto.username }),
+      this.studentsModule.findOne({ dni: createStudentDto.dni })
+    ])
+
+    if (findUser) {
+      throw new BadRequestException(`Ya existe una cuenta registrada con el usuario: ${createStudentDto.username}`)
+    }
+
+    if (findStudent) {
+      throw new BadRequestException(`Ya existe un estudiante registrado con el dni: ${createStudentDto.dni}`)
+    }
+
+    const createUser: Users = {
+      username: createStudentDto.username,
+      password: await hash(createStudentDto.password, 10),
+      rol: "STUDENT",
+    };
+    const userCreated = await this.usersModule.create(createUser);
+
+    const createStudent: Students = {
+      userId: new mongoose.Types.ObjectId(userCreated._id),
+      name: createStudentDto.name,
+      lastName: createStudentDto.lastName,
+      dni: createStudentDto.dni,
+    };
+
+    const createdStudent = await this.studentsModule.create(createStudent);
+    return createdStudent;
   }
 
   findAll() {

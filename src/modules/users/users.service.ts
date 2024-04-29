@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Users, UsersDocument } from './schema/users.schema';
-import { Administrators, AdministratorsDocument } from '../administrators/schema/administrator.schema';
+import { Administrators, AdministratorsDocument } from '../administrators/schema/administrators.schema';
 import { Model } from 'mongoose';
 
 @Injectable()

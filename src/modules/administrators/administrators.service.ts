@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
 import { UpdateAdministratorDto } from './dto/update-administrator.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Administrators, AdministratorsDocument } from './schema/administrator.schema';
+import { Administrators, AdministratorsDocument } from './schema/administrators.schema';
 import mongoose, { Model } from 'mongoose';
 import { hash } from 'bcrypt';
 import { Users, UsersDocument } from '../users/schema/users.schema';
