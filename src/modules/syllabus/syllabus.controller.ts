@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, UseGuards } from '@nestjs/common';
 import { SyllabusService } from './syllabus.service';
 import { CreateSyllabusDto } from './dto/create-syllabus.dto';
 import { UpdateSyllabusDto } from './dto/update-syllabus.dto';
+import { AdminAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { Response } from 'express';
 
+@UseGuards(AdminAuthGuard)
 @Controller('syllabus')
 export class SyllabusController {
   constructor(private readonly syllabusService: SyllabusService) { }

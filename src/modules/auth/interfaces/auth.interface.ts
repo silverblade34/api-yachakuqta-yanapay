@@ -2,7 +2,7 @@ export interface AuthorizationPayload {
     id: number
     username: string
     companyId: number
-    rol: string
+    role: string
     iat: number
     exp: number
 }
