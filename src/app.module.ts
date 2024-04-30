@@ -12,6 +12,7 @@ import { ResponseMiddleware } from './middlewares/response.middleware';
 import { SyllabusModule } from './modules/syllabus/syllabus.module';
 import { PracticesModule } from './modules/practices/practices.module';
 import { CoursesModule } from './modules/courses/courses.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { CoursesModule } from './modules/courses/courses.module';
     UsersModule,
     SyllabusModule,
     PracticesModule,
-    CoursesModule
+    CoursesModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],

@@ -6,19 +6,19 @@ export type TeachersDocument = Teachers & Document;
 @Schema()
 export class Teachers {
     @Prop({ required: true })
-    name: String
+    name: string
 
     @Prop({ required: true })
-    lastName: String
+    lastName: string
 
     @Prop({ required: true, unique: true })
-    dni: String
+    dni: string
 
     @Prop({ required: true })
-    email: String
+    email: string
 
     @Prop({ required: true })
-    nroCPPe: String
+    nroCPPe: string
 
     @Prop({ default: Date.now })
     createdAt: Date;

@@ -5,13 +5,13 @@ export type UsersDocument = Users & Document;
 @Schema()
 export class Users {
     @Prop({ required: true, unique: true })
-    username: String
+    username: string
 
     @Prop({ required: true })
-    password: String
+    password: string
 
     @Prop({ required: true, enum: ["STUDENT", "TEACHER", "ADMINISTRATOR"] })
-    rol: String
+    rol: string
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users)

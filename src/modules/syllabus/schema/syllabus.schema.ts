@@ -6,13 +6,13 @@ export type SyllabusDocument = Syllabus & Document;
 @Schema()
 export class Syllabus {
     @Prop({ required: true })
-    title: String
+    title: string
 
     @Prop({ required: true })
-    description: String
+    description: string
 
     @Prop({ required: true })
-    order: Number
+    order: number
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Courses' })
     courseId: mongoose.Types.ObjectId;
