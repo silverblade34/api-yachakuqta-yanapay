@@ -44,7 +44,6 @@ export class AuthService {
       name = findStudent.name + " " + findStudent.lastName
       roleId = findStudent._id.toString()
     }
-
     const payload: PayloadUser = { userId: findUser._id.toString(), username: findUser.username, name, role: findUser.rol, roleId }
 
     const token = this.jwtService.sign(payload)

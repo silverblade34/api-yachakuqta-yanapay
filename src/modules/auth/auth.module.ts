@@ -2,16 +2,17 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './jwt/jwt.constants';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Users, UsersSchema } from '../users/schema/users.schema';
 import { Administrators, AdministratorsSchema } from '../administrators/schema/administrators.schema';
 import { Teachers, TeachersSchema } from '../teachers/schema/teachers.schema';
 import { Students, StudentsSchema } from '../students/schema/students.schema';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule, 
     MongooseModule.forFeature([
       {
         name: Users.name,
@@ -30,9 +31,11 @@ import { Students, StudentsSchema } from '../students/schema/students.schema';
         schema: StudentsSchema
       }
     ]),
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '5h' }
+    JwtModule.registerAsync({
+      useFactory: async () => ({
+        secret: process.env.JWT_SECRET_KEY,
+        signOptions: { expiresIn: '5h' },
+      }),
     }),
   ],
   controllers: [AuthController],
