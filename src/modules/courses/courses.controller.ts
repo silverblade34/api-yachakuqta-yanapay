@@ -3,14 +3,15 @@ import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { Response } from 'express';
-import { AdminAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { AdminAuthGuard, JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 
-@UseGuards(AdminAuthGuard)
+
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) { }
 
   @Post()
+  @UseGuards(AdminAuthGuard)
   async create(@Body() createCourseDto: CreateCourseDto, @Res() res: Response) {
     try {
       const data = await this.coursesService.create(createCourseDto);
@@ -21,6 +22,7 @@ export class CoursesController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async findAll(@Res() res: Response) {
     try {
       const data = await this.coursesService.findAll();

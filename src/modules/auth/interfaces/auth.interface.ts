@@ -1,8 +1,9 @@
 export interface AuthorizationPayload {
-    id: number
+    userId: string
     username: string
-    companyId: number
+    name: string
     role: string
+    roleId: string
     iat: number
     exp: number
 }
@@ -13,4 +14,5 @@ export interface PayloadUser {
     username: string
     name: string
     role: string
+    roleId: string
 }

@@ -5,12 +5,13 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { Response } from 'express';
 import { TeacherAuthGuard } from '../auth/jwt/jwt-auth.guard';
 
-@UseGuards(TeacherAuthGuard)
+
 @Controller('teachers')
 export class TeachersController {
   constructor(private readonly teachersService: TeachersService) { }
 
   @Post()
+  @UseGuards(TeacherAuthGuard)
   async create(@Body() createTeacherDto: CreateTeacherDto, @Res() res: Response) {
     try {
       const data = await this.teachersService.create(createTeacherDto);

@@ -22,9 +22,6 @@ export class CreateQuestionDto {
     @IsNotEmpty()
     syllabusId: string;
 
-    @IsNotEmpty()
-    teacherId: string;
-
     @IsArray()
     @IsNotEmpty()
     @ValidateNested({ each: true })

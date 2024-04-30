@@ -2,15 +2,16 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res, UseGuards } fro
 import { SyllabusService } from './syllabus.service';
 import { CreateSyllabusDto } from './dto/create-syllabus.dto';
 import { UpdateSyllabusDto } from './dto/update-syllabus.dto';
-import { AdminAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { AdminAuthGuard, JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { Response } from 'express';
 
-@UseGuards(AdminAuthGuard)
+
 @Controller('syllabus')
 export class SyllabusController {
   constructor(private readonly syllabusService: SyllabusService) { }
 
   @Post()
+  @UseGuards(AdminAuthGuard)
   async create(@Body() createSyllabusDto: CreateSyllabusDto, @Res() res: Response) {
     try {
       const data = await this.syllabusService.create(createSyllabusDto);
@@ -21,6 +22,7 @@ export class SyllabusController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async findAll(@Res() res: Response) {
     try {
       const data = await this.syllabusService.findAll();
@@ -31,6 +33,7 @@ export class SyllabusController {
   }
 
   @Get('findAllToCourse/:courseId')
+  @UseGuards(JwtAuthGuard)
   async findAllToCourse(@Param('courseId') courseId: string, @Res() res: Response) {
     try {
       const data = await this.syllabusService.findAllToCourse(courseId);

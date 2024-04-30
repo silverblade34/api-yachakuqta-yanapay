@@ -29,19 +29,23 @@ export class AuthService {
     if (!checkPassword) { throw new HttpException(`La contraseña es incorrecta!`, 404); }
 
     let name: string = ""
+    let roleId: string = ""
 
     if (findUser.rol == "ADMINISTRATOR") {
       const findAdministrator = await this.administratorsModule.findOne({ userId: findUser._id })
       name = findAdministrator.name + " " + findAdministrator.lastName
+      roleId = findAdministrator._id.toString()
     } else if (findUser.rol == "TEACHER") {
       const findTeacher = await this.teachersModule.findOne({ userId: findUser._id })
       name = findTeacher.name + " " + findTeacher.lastName
+      roleId = findTeacher._id.toString()
     } else {
       const findStudent = await this.studentsModule.findOne({ userId: findUser._id })
       name = findStudent.name + " " + findStudent.lastName
+      roleId = findStudent._id.toString()
     }
 
-    const payload: PayloadUser = { userId: findUser._id.toString(), username: findUser.username, name, role: findUser.rol }
+    const payload: PayloadUser = { userId: findUser._id.toString(), username: findUser.username, name, role: findUser.rol, roleId }
 
     const token = this.jwtService.sign(payload)
     const data = { token, username: findUser.username, role: findUser.rol, name }
