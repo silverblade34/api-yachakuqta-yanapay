@@ -6,16 +6,16 @@ export type AdministratorsDocument = Administrators & Document;
 @Schema()
 export class Administrators {
     @Prop({ required: true })
-    name: String
+    name: string
 
     @Prop({ required: true })
-    lastName: String
+    lastName: string
 
     @Prop({ required: true, unique: true })
-    dni: String
+    dni: string
 
     @Prop({ required: true })
-    email: String
+    email: string
 
     @Prop({ default: Date.now })
     createdAt: Date;

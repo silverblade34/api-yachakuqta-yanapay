@@ -5,7 +5,7 @@ export type CoursesDocument = Courses & Document;
 @Schema()
 export class Courses {
     @Prop({ required: true })
-    title: String
+    title: string
 
     @Prop({ default: Date.now })
     createdAt: Date;

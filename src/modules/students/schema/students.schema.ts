@@ -6,13 +6,13 @@ export type StudentsDocument = Students & Document;
 @Schema()
 export class Students {
     @Prop({ required: true })
-    name: String
+    name: string
 
     @Prop({ required: true })
-    lastName: String
+    lastName: string
 
     @Prop({ required: true, unique: true })
-    dni: String
+    dni: string
 
     @Prop({ default: Date.now })
     createdAt: Date;
