@@ -20,7 +20,9 @@ import { AuthModule } from './modules/auth/auth.module';
       envFilePath: ".dev.env",
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.DB_URI),
+    MongooseModule.forRoot(process.env.DB_URI, {
+      dbName: 'yanapay-yachacuyta',
+    }),
     StudentsModule,
     TeachersModule,
     AdministratorsModule,

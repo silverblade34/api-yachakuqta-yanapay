@@ -1,0 +1,12 @@
+version: '3'
+services:
+  v1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - imagenes-volumen:/var/www/services/images
+volumes:
+  imagenes-volumen:
