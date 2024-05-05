@@ -6,6 +6,8 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { AdminAuthGuard, JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { Response } from 'express';
 import { SubmitImageCourseDto } from './dto/submit-image-course.dto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Controller('courses')
 export class CoursesController {
@@ -53,6 +55,16 @@ export class CoursesController {
       res.locals.response("Se ha asignado una imagen al curso correctamente", data, true, 200);
     } catch (error) {
       res.locals.response(error.message, null, false, 400);
+    }
+  }
+
+  @Get('getImage/:fileName')
+  getImage(@Param('fileName') fileName: string, @Res() res: Response) {
+    const filePath = path.join(process.env.IMAGES_DIRECTORY, fileName);
+    if (fs.existsSync(filePath)) {
+      res.sendFile(filePath);
+    } else {
+      res.status(404).send('File not found');
     }
   }
 
