@@ -57,36 +57,50 @@ export class CoursesService {
     if (!image || image.length === 0) {
       throw new BadRequestException('No se ha detectado ninguna imagen');
     }
-    const findCourse = await this.coursesModule.findOne({ _id: idCourse })
+
+    const findCourse = await this.coursesModule.findOne({ _id: idCourse });
     if (!findCourse) {
       throw new BadRequestException('El curso referenciado no se encuentra registrado');
     }
 
-    const nameImageSave = await this.uploadImageDirectory(image[0])
+    const validExtensions = ['.png'];
+    const ext = path.extname(image[0].originalname).toLowerCase();
+
+    if (!validExtensions.includes(ext)) {
+      throw new BadRequestException('La imagen debe ser de formato PNG');
+    }
+
+    const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.image);
     await this.coursesModule.updateOne(
       { _id: idCourse },
-      { $set: { image: nameImageSave } }, // Utiliza $set para actualizar solo el campo image
+      { $set: { image: nameImageSave } },
     );
   }
 
-
-  async uploadImageDirectory(image: any): Promise<string> {
+  async uploadImageDirectory(image: any, nameImageExisting: string): Promise<string> {
     if (!image) {
       throw new Error('No se ha proporcionado una imagen');
     }
-    const uploadPath = process.env.IMAGES_DIRECTORY; // Directorio de carga de documentos
+    const uploadPath = process.env.IMAGES_DIRECTORY;
 
     if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true }); // Crea el directorio si no existe
+      fs.mkdirSync(uploadPath, { recursive: true });
     }
 
     const nameFile = image.originalname.split('.');
-    const fileName = `${uuidv4()}.${nameFile[nameFile.length - 1]}`; // Genera un nombre aleatorio para el documento
+    const fileName = `${uuidv4()}.${nameFile[nameFile.length - 1]}`;
 
-    const filePath = path.join(uploadPath, fileName); // Ruta completa para guardar el archivo con el nuevo nombre
-    fs.writeFileSync(filePath, image.buffer); // Guarda el archivo en la ruta especificada
+    const filePath = path.join(uploadPath, fileName);
+    fs.writeFileSync(filePath, image.buffer);
 
-    return fileName; // Devuelve el nombre del archivo como identificador único
+    if (nameImageExisting) {
+      const existingFilePath = path.join(uploadPath, nameImageExisting);
+      if (fs.existsSync(existingFilePath)) {
+        fs.unlinkSync(existingFilePath);
+      }
+    }
+
+    return fileName;
   }
 
   findOne(id: number) {
