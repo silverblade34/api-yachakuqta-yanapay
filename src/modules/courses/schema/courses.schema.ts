@@ -7,6 +7,9 @@ export class Courses {
     @Prop({ required: true })
     title: string
 
+    @Prop()
+    image: string
+
     @Prop({ default: Date.now })
     createdAt: Date;
 }
