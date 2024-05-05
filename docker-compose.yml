@@ -7,6 +7,6 @@ services:
     ports:
       - "3030:3030"
     volumes:
-      - imagenes-volumen-yachauyta:/var/www/services/images
+      - imagenes-volumen:/var/www/services/images
 volumes:
-  imagenes-volumen-yachauyta:
+  imagenes-volumen:
