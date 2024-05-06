@@ -132,18 +132,11 @@ export class CoursesService {
       }
 
       const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.imageIcon);
-      const updateData: any = { imageIcon: nameImageSave };
-      if (updateCourseDto.title != "") {
-        updateData.title = updateCourseDto.title;
-      }
-      await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: updateData });
+
+      await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: { imageIcon: nameImageSave, title: updateCourseDto.title } });
 
     } else {
-      const updateData: any = {};
-      if (updateCourseDto.title != "") {
-        updateData.title = updateCourseDto.title;
-        await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: updateData });
-      }
+      await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: { title: updateCourseDto.title } });
     }
   }
 
