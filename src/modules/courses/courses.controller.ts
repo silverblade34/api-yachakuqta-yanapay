@@ -55,7 +55,7 @@ export class CoursesController {
   async submitImage(@UploadedFiles() image: any, @Body() submitImageCourseDto: SubmitImageCourseDto, @Res() res: Response) {
     try {
       const data = await this.coursesService.submitImage(submitImageCourseDto.idCourse, image);
-      res.locals.response("Se ha asignado una imagen al curso correctamente", data, true, 200);
+      res.locals.response("Se ha asignado una imagen de fondo al curso correctamente", data, true, 200);
     } catch (error) {
       res.locals.response(error.message, null, false, 400);
     }
