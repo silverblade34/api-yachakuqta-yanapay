@@ -73,7 +73,7 @@ export class CoursesService {
       throw new BadRequestException('El curso referenciado no se encuentra registrado');
     }
 
-    const validExtensions = ['.png'];
+    const validExtensions = ['.png', '.jpeg', '.jpg', '.webp'];
     const ext = path.extname(image[0].originalname).toLowerCase();
 
     if (!validExtensions.includes(ext)) {
