@@ -13,11 +13,13 @@ import * as path from 'path';
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) { }
 
+  // Al crear un curso se debe subir un icono de card
   @Post()
   @UseGuards(AdminAuthGuard)
-  async create(@Body() createCourseDto: CreateCourseDto, @Res() res: Response) {
+  @UseInterceptors(FilesInterceptor('image'))
+  async create(@UploadedFiles() image: any, @Body() createCourseDto: CreateCourseDto, @Res() res: Response) {
     try {
-      const data = await this.coursesService.create(createCourseDto);
+      const data = await this.coursesService.create(createCourseDto, image);
       res.locals.response("Se ha creado el curso correctamente", data, true, 200);
     } catch (error) {
       res.locals.response(error.message, null, false, 400);
@@ -46,10 +48,11 @@ export class CoursesController {
     }
   }
 
-  @Post('/submitImage')
+  // Las imagenes son los fondos para la vista de detalles
+  @Post('/submitImageBack')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FilesInterceptor('image'))
-  async submitImage(@UploadedFiles() image, @Body() submitImageCourseDto: SubmitImageCourseDto, @Res() res: Response) {
+  async submitImage(@UploadedFiles() image: any, @Body() submitImageCourseDto: SubmitImageCourseDto, @Res() res: Response) {
     try {
       const data = await this.coursesService.submitImage(submitImageCourseDto.idCourse, image);
       res.locals.response("Se ha asignado una imagen al curso correctamente", data, true, 200);
@@ -58,7 +61,7 @@ export class CoursesController {
     }
   }
 
-  @Get('getImage/:fileName')
+  @Get('/getImage/:fileName')
   getImage(@Param('fileName') fileName: string, @Res() res: Response) {
     const filePath = path.join(process.env.IMAGES_DIRECTORY, fileName);
     if (fs.existsSync(filePath)) {
@@ -73,9 +76,15 @@ export class CoursesController {
     return this.coursesService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return this.coursesService.update(+id, updateCourseDto);
+  @Post('/update')
+  @UseInterceptors(FilesInterceptor('image'))
+  async update(@UploadedFiles() image: any, @Body() updateCourseDto: UpdateCourseDto, @Res() res: Response) {
+    try {
+      const data = await this.coursesService.update(image, updateCourseDto);
+      res.locals.response("Se ha actualizado correctamente el curso", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
   }
 
   @Delete(':id')

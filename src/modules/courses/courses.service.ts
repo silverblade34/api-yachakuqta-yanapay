@@ -16,10 +16,20 @@ export class CoursesService {
     @InjectModel(Syllabus.name) private syllabusModule: Model<SyllabusDocument>,
   ) { }
 
-  async create(createCourseDto: CreateCourseDto) {
+  async create(createCourseDto: CreateCourseDto, icon: any) {
+    const validExtensions = ['.png'];
+    const ext = path.extname(icon[0].originalname).toLowerCase();
+
+    if (!validExtensions.includes(ext)) {
+      throw new BadRequestException('El icono debe ser de formato PNG');
+    }
+
+    const nameImageSave = await this.uploadImageDirectory(icon[0], "");
+
     const newCourse = {
       "title": createCourseDto.title,
-      "image": ""
+      "imageIcon": nameImageSave,
+      "imageBackground": ""
     }
     const createdCourse = await this.coursesModule.create(newCourse)
     return createdCourse;
@@ -70,10 +80,10 @@ export class CoursesService {
       throw new BadRequestException('La imagen debe ser de formato PNG');
     }
 
-    const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.image);
+    const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.imageIcon);
     await this.coursesModule.updateOne(
       { _id: idCourse },
-      { $set: { image: nameImageSave } },
+      { $set: { imageBackground: nameImageSave } },
     );
   }
 
@@ -107,8 +117,34 @@ export class CoursesService {
     return `This action returns a #${id} course`;
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return `This action updates a #${id} course`;
+  async update(image: any, updateCourseDto: UpdateCourseDto) {
+    const findCourse = await this.coursesModule.findOne({ _id: updateCourseDto.idCourse });
+    if (!findCourse) {
+      throw new BadRequestException('El curso referenciado no se encuentra registrado');
+    }
+
+    if (image != "") {
+      const validExtensions = ['.png'];
+      const ext = path.extname(image[0].originalname).toLowerCase();
+
+      if (!validExtensions.includes(ext)) {
+        throw new BadRequestException('La imagen debe ser de formato PNG');
+      }
+
+      const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.imageIcon);
+      const updateData: any = { imageIcon: nameImageSave };
+      if (updateCourseDto.title != "") {
+        updateData.title = updateCourseDto.title;
+      }
+      await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: updateData });
+
+    } else {
+      const updateData: any = {};
+      if (updateCourseDto.title != "") {
+        updateData.title = updateCourseDto.title;
+        await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: updateData });
+      }
+    }
   }
 
   remove(id: number) {
