@@ -80,7 +80,7 @@ export class CoursesService {
       throw new BadRequestException('La imagen debe ser de formato PNG');
     }
 
-    const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.imageIcon);
+    const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.imageBackground);
     await this.coursesModule.updateOne(
       { _id: idCourse },
       { $set: { imageBackground: nameImageSave } },
