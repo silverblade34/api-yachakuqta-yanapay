@@ -9,9 +9,6 @@ export class Syllabus {
     title: string
 
     @Prop({ required: true })
-    description: string
-
-    @Prop({ required: true })
     order: number
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Courses' })

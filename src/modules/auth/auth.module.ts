@@ -34,7 +34,7 @@ import { ConfigModule } from '@nestjs/config';
     JwtModule.registerAsync({
       useFactory: async () => ({
         secret: process.env.JWT_SECRET_KEY,
-        signOptions: { expiresIn: '5h' },
+        signOptions: { expiresIn: '10h' },
       }),
     }),
   ],

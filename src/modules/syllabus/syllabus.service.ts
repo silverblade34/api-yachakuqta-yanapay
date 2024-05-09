@@ -20,7 +20,6 @@ export class SyllabusService {
 
     const newSyllabus = {
       title: createSyllabusDto.title,
-      description: createSyllabusDto.description,
       order: createSyllabusDto.order,
       courseId: new mongoose.Types.ObjectId(createSyllabusDto.courseId),
     }

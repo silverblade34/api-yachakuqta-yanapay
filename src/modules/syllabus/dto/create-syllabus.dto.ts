@@ -5,9 +5,6 @@ export class CreateSyllabusDto {
     title: string
 
     @IsNotEmpty()
-    description: string
-
-    @IsNotEmpty()
     order: number
 
     @IsNotEmpty()
