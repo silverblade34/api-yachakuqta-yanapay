@@ -22,8 +22,13 @@ export class BlockPagesController {
 
   @Get('/findAllToSyllabusBlock/:syllabusBlockId')
   @UseGuards(JwtAuthGuard)
-  findAllToSyllabusBlock(@Param('syllabusBlockId') syllabusBlockId: string) {
-    return this.blockPagesService.findAllToSyllabusBlock(syllabusBlockId);
+  async findAllToSyllabusBlock(@Param('syllabusBlockId') syllabusBlockId: string, @Res() res: Response) {
+    try {
+      const data = await this.blockPagesService.findAllToSyllabusBlock(syllabusBlockId);
+      res.locals.response("Lista de block-pages que pertenecen al syllabus-block", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
   }
 
   @Patch(':id')

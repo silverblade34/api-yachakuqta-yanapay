@@ -22,8 +22,13 @@ export class BlockPagesService {
     return createdBlockPage;
   }
 
-  findAllToSyllabusBlock(syllabusBlockId: string) {
-    return `This action returns all blockPages`;
+  async findAllToSyllabusBlock(syllabusBlockId: string) {
+    const findSyllabusBlock = await this.syllabusBlockModule.findOne({ _id: syllabusBlockId })
+
+    if (!findSyllabusBlock) { throw new BadRequestException(`El syllabus-block con id: ${syllabusBlockId} no se encuentra registrado`) }
+
+    const findBlockPages = await this.blockPageModule.find({ syllabusBlockId });
+    return findBlockPages;
   }
 
   findOne(id: number) {
