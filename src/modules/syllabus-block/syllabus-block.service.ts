@@ -27,8 +27,39 @@ export class SyllabusBlockService {
 
     if (!findSyllabus) { throw new BadRequestException(`El syllabus con id: ${syllabusId} no se encuentra registrado`) }
 
-    const findSyllabusBlocks = await this.syllabusBlockModule.find({ syllabusId });
-    return findSyllabusBlocks;
+    // Realizar la agregación para obtener los SyllabusBlocks con los títulos de los BlockPage
+    const syllabusBlocks = await this.syllabusBlockModule.aggregate([
+      { $match: { syllabusId: findSyllabus._id } }, // Filtrar por el syllabusId
+      {
+        $lookup: {
+          from: 'blockpages', // Nombre de la colección de BlockPage
+          localField: '_id',
+          foreignField: 'syllabusBlockId',
+          as: 'blockPages',
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          order: 1,
+          syllabusId: 1,
+          createdAt: 1,
+          blockPages: {
+            $map: {
+              input: '$blockPages',
+              as: 'block',
+              in: {
+                _id: '$$block._id',
+                title: '$$block.title',
+              },
+            },
+          },
+        },
+      },
+    ]);
+
+    return syllabusBlocks;
   }
 
   update(id: number, updateSyllabusBlockDto: UpdateSyllabusBlockDto) {

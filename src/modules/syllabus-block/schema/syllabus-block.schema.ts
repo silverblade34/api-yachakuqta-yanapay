@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
-import { BlockPage } from "src/modules/block-pages/schema/block-page.schema";
 
 export type SyllabusBlockDocument = SyllabusBlock & Document;
 
