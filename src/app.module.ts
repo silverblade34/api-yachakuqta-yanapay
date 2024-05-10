@@ -13,6 +13,8 @@ import { SyllabusModule } from './modules/syllabus/syllabus.module';
 import { PracticesModule } from './modules/practices/practices.module';
 import { CoursesModule } from './modules/courses/courses.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { SyllabusBlockModule } from './modules/syllabus-block/syllabus-block.module';
+import { BlockPagesModule } from './modules/block-pages/block-pages.module';
 
 @Module({
   imports: [
@@ -33,7 +35,9 @@ import { AuthModule } from './modules/auth/auth.module';
     SyllabusModule,
     PracticesModule,
     CoursesModule,
-    AuthModule
+    AuthModule,
+    SyllabusBlockModule,
+    BlockPagesModule
   ],
   controllers: [],
   providers: [],
