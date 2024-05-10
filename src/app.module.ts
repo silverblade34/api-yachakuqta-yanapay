@@ -19,7 +19,7 @@ import { BlockPagesModule } from './modules/block-pages/block-pages.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ".dev.env",
+      envFilePath: ".prod.env",
       isGlobal: true
     }),
     MongooseModule.forRoot(process.env.DB_URI, {
