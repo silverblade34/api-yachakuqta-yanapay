@@ -8,7 +8,7 @@ export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
 
   @Post()
-  create(@Body() createChallengeDto: CreateChallengeDto) {
+  create(@Body() createChallengeDto: any) {
     return this.challengesService.create(createChallengeDto);
   }
 

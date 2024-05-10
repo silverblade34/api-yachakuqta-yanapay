@@ -1,10 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
+import * as fs from 'fs';
 
 @Injectable()
 export class ChallengesService {
-  create(createChallengeDto: CreateChallengeDto) {
+  create(createChallengeDto: any) {
+    // Convierte el objeto a una cadena JSON
+    const jsonString = JSON.stringify(createChallengeDto);
+    
+    try {
+      // Escribe la cadena JSON en un archivo
+      fs.writeFileSync('payload.json', jsonString);
+      console.log('Archivo JSON creado exitosamente.');
+    } catch (error) {
+      console.error('Error al crear el archivo JSON:', error);
+    }
+
     return 'This action adds a new challenge';
   }
 
