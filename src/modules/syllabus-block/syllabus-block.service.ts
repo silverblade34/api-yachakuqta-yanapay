@@ -22,12 +22,13 @@ export class SyllabusBlockService {
     return createdQuestion;
   }
 
-  findAll() {
-    return `This action returns all syllabusBlock`;
-  }
+  async findAllToSyllabus(syllabusId: string) {
+    const findSyllabus = await this.syllabusModule.findOne({ _id: syllabusId })
 
-  findOne(id: number) {
-    return `This action returns a #${id} syllabusBlock`;
+    if (!findSyllabus) { throw new BadRequestException(`El syllabus con id: ${syllabusId} no se encuentra registrado`) }
+
+    const findSyllabusBlocks = await this.syllabusBlockModule.find({ syllabusId });
+    return findSyllabusBlocks;
   }
 
   update(id: number, updateSyllabusBlockDto: UpdateSyllabusBlockDto) {

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res, UseGuards } fro
 import { SyllabusBlockService } from './syllabus-block.service';
 import { CreateSyllabusBlockDto } from './dto/create-syllabus-block.dto';
 import { UpdateSyllabusBlockDto } from './dto/update-syllabus-block.dto';
-import { AdminAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { AdminAuthGuard, JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { Response } from 'express';
 
 @Controller('syllabus-block')
@@ -20,14 +20,15 @@ export class SyllabusBlockController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.syllabusBlockService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.syllabusBlockService.findOne(+id);
+  @Get('/findAllToSyllabus/:syllabusId')
+  @UseGuards(JwtAuthGuard)
+  async findAllToSyllabus(@Param('syllabusId') syllabusId: string, @Res() res: Response) {
+    try {
+      const data = await this.syllabusBlockService.findAllToSyllabus(syllabusId);
+      res.locals.response("Se esta listando los syllabus-block relacionados al Syllabus", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
   }
 
   @Patch(':id')

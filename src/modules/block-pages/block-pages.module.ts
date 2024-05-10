@@ -3,6 +3,7 @@ import { BlockPagesService } from './block-pages.service';
 import { BlockPagesController } from './block-pages.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BlockPage, BlockPageSchema } from './schema/block-page.schema';
+import { SyllabusBlock, SyllabusBlockSchema } from '../syllabus-block/schema/syllabus-block.schema';
 
 @Module({
   imports: [
@@ -11,6 +12,10 @@ import { BlockPage, BlockPageSchema } from './schema/block-page.schema';
         name: BlockPage.name,
         schema: BlockPageSchema
       },
+      {
+        name: SyllabusBlock.name,
+        schema: SyllabusBlockSchema
+      }
     ])
   ],
   controllers: [BlockPagesController],

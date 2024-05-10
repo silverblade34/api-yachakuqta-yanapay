@@ -32,7 +32,7 @@ export class SyllabusController {
     }
   }
 
-  @Get('findAllToCourse/:courseId')
+  @Get('/findAllToCourse/:courseId')
   @UseGuards(JwtAuthGuard)
   async findAllToCourse(@Param('courseId') courseId: string, @Res() res: Response) {
     try {
