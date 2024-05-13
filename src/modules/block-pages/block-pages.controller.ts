@@ -31,6 +31,17 @@ export class BlockPagesController {
     }
   }
 
+  @Get('/:blockPageId')
+  @UseGuards(JwtAuthGuard)
+  async findOne(@Param('blockPageId') blockPageId: string, @Res() res: Response) {
+    try {
+      const data = await this.blockPagesService.findOne(blockPageId);
+      res.locals.response("El block-page se ha encontrado", data, true, 200);
+    } catch (error) {
+      res.locals.response(error.message, null, false, 400);
+    }
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBlockPageDto: UpdateBlockPageDto) {
     return this.blockPagesService.update(+id, updateBlockPageDto);

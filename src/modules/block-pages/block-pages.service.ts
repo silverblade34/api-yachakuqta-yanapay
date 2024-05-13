@@ -31,8 +31,11 @@ export class BlockPagesService {
     return findBlockPages;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} blockPage`;
+  async findOne(blockPageId: string) {
+    const findBlockPage = await this.blockPageModule.findOne({ _id: blockPageId })
+
+    if (!findBlockPage) { throw new BadRequestException(`El block-page con id: ${blockPageId} no se encuentra registrado`) }
+    return findBlockPage;
   }
 
   update(id: number, updateBlockPageDto: UpdateBlockPageDto) {
