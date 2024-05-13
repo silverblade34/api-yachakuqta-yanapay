@@ -1,73 +1,76 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Proyecto de API para Aplicativo Educativo
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![Logo](https://static.vecteezy.com/system/resources/previews/005/250/903/original/llama-with-sunglasses-free-vector.jpg) 
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este proyecto consiste en una API desarrollada con Nest.Js para un aplicativo dirigido a estudiantes de segundo grado de secundaria. El aplicativo tiene como objetivo ayudar a los estudiantes a repasar los cursos y el plan de estudios proporcionado por el Ministerio de Educación del país.
 
-## Description
+## Características principales
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Material educativo:** Los estudiantes pueden acceder a material educativo relacionado con cada curso para repasar y reforzar sus conocimientos.
+- **Simulación de exámenes:** Los estudiantes pueden simular exámenes por cada módulo para evaluar su aprendizaje.
+- **Registro y validación de profesores:** Los profesores pueden registrarse en la plataforma y su registro con el rol de profesor será validado con su inscripción en el colegio de profesores del Perú para certificar su condición de profesor.
+- **Interacción entre alumnos y profesores:** Los alumnos pueden agregar dudas en cada módulo de los cursos, las cuales pueden ser respondidas por profesores o incluso por otros alumnos.
 
-## Installation
+## Configuración del proyecto
 
-```bash
-$ npm install
+Para levantar el proyecto, se deben crear dos archivos de configuración: `.dev.env` y `.prod.env`. A continuación, se detallan las variables de entorno que deben contener cada archivo:
+
+### `.dev.env`
+
+```plaintext
+DB_URI=mongodb://localhost:27017/nombre_base_datos
+PORT=3030
+LINK_CPPE_CONSULTA=https://enlace_cppe_consulta.com
+JWT_SECRET_KEY=clave_secreta_para_jwt
+IMAGES_DIRECTORY=/ruta/directorio/imagenes
 ```
 
-## Running the app
+### `.prod.env`
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```plaintext
+DB_URI=mongodb://servidor_mongodb:puerto/nombre_base_datos
+PORT=3030
+LINK_CPPE_CONSULTA=https://enlace_cppe_consulta.com
+JWT_SECRET_KEY=clave_secreta_para_jwt
+IMAGES_DIRECTORY=/ruta/directorio/imagenes
 ```
 
-## Test
+Asegúrate de reemplazar los valores de ejemplo con los valores específicos de tu entorno y configuración.
+
+## Instalación y ejecución
+
+1. Clona este repositorio en tu máquina local.
+2. Instala las dependencias del proyecto utilizando npm o yarn:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
+# o
+yarn install
 ```
 
-## Support
+3. Inicia el servidor en modo desarrollo:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+npm run start:dev
+# o
+yarn start:dev
+```
 
-## Stay in touch
+4. Para producción, puedes compilar el proyecto y ejecutarlo con:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+npm run build
+npm run start:prod
+# o
+yarn build
+yarn start:prod
+```
 
-## License
+## Contribución
 
-Nest is [MIT licensed](LICENSE).
+Si deseas contribuir a este proyecto, por favor sigue estas pautas:
+- Haz un fork del proyecto.
+- Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+- Realiza tus cambios y haz commits (`git commit -am 'Agrega nueva funcionalidad'`).
+- Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
+- Crea un nuevo Pull Request.
