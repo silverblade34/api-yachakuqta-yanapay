@@ -1,6 +1,6 @@
-# Proyecto de API para Aplicativo Educativo
+# Proyecto de API para Aplicativo Educativo Yanapay Yachacuyta
 
-![Logo](https://static.vecteezy.com/system/resources/previews/005/250/903/original/llama-with-sunglasses-free-vector.jpg) 
+<img src="https://static.vecteezy.com/system/resources/previews/005/250/903/original/llama-with-sunglasses-free-vector.jpg" alt="Logo" width="200" height="200"/>
 
 Este proyecto consiste en una API desarrollada con Nest.Js para un aplicativo dirigido a estudiantes de segundo grado de secundaria. El aplicativo tiene como objetivo ayudar a los estudiantes a repasar los cursos y el plan de estudios proporcionado por el Ministerio de Educación del país.
 
