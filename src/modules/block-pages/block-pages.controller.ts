@@ -16,6 +16,7 @@ export class BlockPagesController {
       const data = await this.blockPagesService.create(createBlockPageDto);
       res.locals.response("Se ha creado la pagina para el bloque de syllabus", data, true, 200);
     } catch (error) {
+      console.log(error)
       res.locals.response(error.message, null, false, 400);
     }
   }

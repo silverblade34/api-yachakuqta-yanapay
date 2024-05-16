@@ -30,7 +30,7 @@ export class Questions {
   teacherId: mongoose.Types.ObjectId;
 
   @Prop({ type: [QuestionOption], default: [] })
-  options: QuestionOption[]; // Lista de opciones de respuesta
+  options: QuestionOption[];
 }
 
 export const QuestionsSchema = SchemaFactory.createForClass(Questions);

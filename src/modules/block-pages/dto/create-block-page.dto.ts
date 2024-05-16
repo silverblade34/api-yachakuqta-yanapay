@@ -2,17 +2,41 @@ import { IsNotEmpty } from "class-validator"
 
 export class CreateBlockPageDto {
     @IsNotEmpty()
+    page: number
+
+    @IsNotEmpty()
     title: string
+
+    @IsNotEmpty()
+    syllabusBlockId: string;
+
+    blocks: BlockDto[]
+}
+
+export class BlockDto {
+    @IsNotEmpty()
+    order: number
 
     @IsNotEmpty()
     content: string
 
     @IsNotEmpty()
-    page: number
+    type: string
 
     @IsNotEmpty()
-    delta: any[]
+    base64: string
 
     @IsNotEmpty()
-    syllabusBlockId: string;
+    nameImage: string
+
+    details: DetailsBlockDto
+}
+
+
+export class DetailsBlockDto {
+    @IsNotEmpty()
+    height: number
+
+    @IsNotEmpty()
+    width: number
 }
