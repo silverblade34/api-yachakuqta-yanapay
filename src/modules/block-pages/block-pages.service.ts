@@ -26,6 +26,7 @@ export class BlockPagesService {
         const buffer = Buffer.from(block.base64, 'base64');
         const imageFileName = await this.uploadImageDirectory(buffer, "");
         block.nameImage = imageFileName;
+        block.content = imageFileName;
         block.base64 = ""
       }
     }
