@@ -52,6 +52,7 @@ export class SyllabusBlockService {
               in: {
                 _id: '$$block._id',
                 title: '$$block.title',
+                page: '$$block.page',
               },
             },
           },
