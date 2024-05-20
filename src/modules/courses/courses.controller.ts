@@ -48,19 +48,6 @@ export class CoursesController {
     }
   }
 
-  // Las imagenes son los fondos para la vista de detalles
-  @Post('/submitImageBack')
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FilesInterceptor('image'))
-  async submitImage(@UploadedFiles() image: any, @Body() submitImageCourseDto: SubmitImageCourseDto, @Res() res: Response) {
-    try {
-      const data = await this.coursesService.submitImage(submitImageCourseDto.idCourse, image);
-      res.locals.response("Se ha asignado una imagen de fondo al curso correctamente", data, true, 200);
-    } catch (error) {
-      res.locals.response(error.message, null, false, 400);
-    }
-  }
-
   @Get('/getImage/:fileName')
   getImage(@Param('fileName') fileName: string, @Res() res: Response) {
     const filePath = path.join(process.env.IMAGES_DIRECTORY, fileName);

@@ -61,31 +61,6 @@ export class CoursesService {
     return coursesWithSyllabus;
   }
 
-
-  async submitImage(idCourse: string, image: any) {
-    if (!image || image.length === 0) {
-      throw new BadRequestException('No se ha detectado ninguna imagen');
-    }
-
-    const findCourse = await this.coursesModule.findOne({ _id: idCourse });
-    if (!findCourse) {
-      throw new BadRequestException('El curso referenciado no se encuentra registrado');
-    }
-
-    const validExtensions = ['.png', '.jpeg', '.jpg', '.webp'];
-    const ext = path.extname(image[0].originalname).toLowerCase();
-
-    if (!validExtensions.includes(ext)) {
-      throw new BadRequestException('La imagen debe ser de formato PNG');
-    }
-
-    const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.imageBackground);
-    await this.coursesModule.updateOne(
-      { _id: idCourse },
-      { $set: { imageBackground: nameImageSave } },
-    );
-  }
-
   async uploadImageDirectory(image: any, nameImageExisting: string): Promise<string> {
     if (!image) {
       throw new Error('No se ha proporcionado una imagen');
@@ -123,7 +98,7 @@ export class CoursesService {
     }
 
     if (image != "") {
-      const validExtensions = ['.png'];
+      const validExtensions = ['.png', '.jpeg', '.jpg', '.webp'];
       const ext = path.extname(image[0].originalname).toLowerCase();
 
       if (!validExtensions.includes(ext)) {
