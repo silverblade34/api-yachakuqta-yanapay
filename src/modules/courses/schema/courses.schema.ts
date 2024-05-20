@@ -8,9 +8,6 @@ export class Courses {
     title: string
 
     @Prop()
-    imageIcon: string
-
-    @Prop()
     imageBackground: string
 
     @Prop({ default: Date.now })

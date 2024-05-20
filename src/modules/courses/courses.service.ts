@@ -17,19 +17,18 @@ export class CoursesService {
   ) { }
 
   async create(createCourseDto: CreateCourseDto, icon: any) {
-    const validExtensions = ['.png'];
+    const validExtensions = ['.png', '.jpeg', '.jpg', '.webp'];
     const ext = path.extname(icon[0].originalname).toLowerCase();
 
     if (!validExtensions.includes(ext)) {
-      throw new BadRequestException('El icono debe ser de formato PNG');
+      throw new BadRequestException('La imagen debe ser en uno de los siguientes formatos: png, jpeg, jpg, webp');
     }
 
     const nameImageSave = await this.uploadImageDirectory(icon[0], "");
 
     const newCourse = {
       "title": createCourseDto.title,
-      "imageIcon": nameImageSave,
-      "imageBackground": ""
+      "imageBackground": nameImageSave
     }
     const createdCourse = await this.coursesModule.create(newCourse)
     return createdCourse;
@@ -131,9 +130,9 @@ export class CoursesService {
         throw new BadRequestException('La imagen debe ser de formato PNG');
       }
 
-      const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.imageIcon);
+      const nameImageSave = await this.uploadImageDirectory(image[0], findCourse.imageBackground);
 
-      await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: { imageIcon: nameImageSave, title: updateCourseDto.title } });
+      await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: { imageBackground: nameImageSave, title: updateCourseDto.title } });
 
     } else {
       await this.coursesModule.updateOne({ _id: updateCourseDto.idCourse }, { $set: { title: updateCourseDto.title } });
